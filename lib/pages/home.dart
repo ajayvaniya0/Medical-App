@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:practice_project/pages/detail.dart';
 
-import 'models/category.dart';
-import 'models/doctor.dart';
+import '../models/category.dart';
+import '../models/doctor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -173,33 +174,85 @@ class _HomePageState extends State<HomePage> {
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       itemBuilder: (context, index) {
-        return Container(
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xff51A8FF).withOpacity(0.07),
-                offset: const Offset(0, 4),
-                blurRadius: 20,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailPage(doctorModel: doctorsData[index],),
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 105,
-                decoration: BoxDecoration(
-                  color: doctorsData[index].imageBox,
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    alignment: Alignment.bottomCenter,
-                    image: AssetImage(doctorsData[index].image),
+            );
+          },
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xff51A8FF).withOpacity(0.07),
+                  offset: const Offset(0, 4),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 105,
+                  decoration: BoxDecoration(
+                    color: doctorsData[index].imageBox,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      alignment: Alignment.bottomCenter,
+                      image: AssetImage(doctorsData[index].image),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        doctorsData[index].name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        doctorsData[index].specialties.first,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                            size: 18,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            doctorsData[index].score.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
